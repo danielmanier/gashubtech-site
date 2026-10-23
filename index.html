@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gas Hub Tech</title>
+<meta name="description" content="GTRM: gestão de risco e operação de gás natural, em um só lugar. Plataforma da Gas Hub Tech para comercializadoras, distribuidoras e consumidores do mercado livre de gás.">
+<link rel="icon" href="img/gashubtech-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@400;600;700&display=swap">
+<style>
+/* Layout: página de documento estruturada por réguas navy, sem sombras; hero com vídeo, módulos em linhas alternadas com telas reais. */
+/* A marca define só o tema claro e não tem logo negativo: a página fica clara em qualquer tema do visualizador. */
+:root{
+  color-scheme: light;
+  --navy:#0c1951; --teal:#168e8e; --teal-ink:#1f7c7d;
+  --ink:#22263a; --ink-muted:#4e546e;
+  --surface:#ffffff; --surface-tint:#edf6f5; --line:#d9e0e2;
+  --chart-slate:#5b6296; --chart-teal-light:#c0e0df; --on-navy:#ffffff;
+  --alert:#b3261e; --alert-bg:#fbe9e7;
+  --font-display: Montserrat, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", Menlo, Consolas, monospace;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-6:24px; --space-8:32px; --space-12:48px;
+  --radius-sm:3px; --radius-md:8px;
+  --wrap: 1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{margin:0;background:var(--surface);color:var(--ink);font-family:var(--font-sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+img,video{max-width:100%;display:block}
+a{color:var(--teal-ink)}
+a:focus-visible,button:focus-visible,video:focus-visible{outline:2px solid var(--teal-ink);outline-offset:2px}
+h1,h2,h3{font-family:var(--font-display);color:var(--navy);text-wrap:balance;margin:0}
+p{margin:0}
+
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (min-width:900px){ .wrap{padding-left:max(48px,env(safe-area-inset-left,0px));padding-right:max(48px,env(safe-area-inset-right,0px))} }
+
+.eyebrow{font-family:var(--font-display);font-size:13px;line-height:16px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy)}
+.lead{font-size:clamp(17px,1.6vw,19px);line-height:1.5;color:var(--ink-muted);max-width:58ch}
+.btn{display:inline-flex;align-items:center;gap:var(--space-2);font-family:var(--font-display);font-weight:600;font-size:15px;line-height:20px;padding:12px 20px;border-radius:var(--radius-md);text-decoration:none;border:1.5px solid var(--navy);cursor:pointer;transition:background .15s,color .15s}
+.btn-primary{background:var(--navy);color:var(--on-navy)}
+.btn-primary:hover{background:#16267a;border-color:#16267a}
+.btn-ghost{background:transparent;color:var(--navy)}
+.btn-ghost:hover{background:var(--surface-tint)}
+
+/* Cabeçalho */
+.site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:3px solid var(--navy)}
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between;gap:var(--space-6);padding-block:10px}
+.brand{display:block;flex:none}
+.brand img{width:150px;height:auto}
+.nav{display:flex;align-items:center;gap:var(--space-6)}
+.nav a{font-family:var(--font-display);font-weight:600;font-size:14px;color:var(--navy);text-decoration:none;padding-block:6px;border-bottom:2px solid transparent}
+.nav a:hover{border-bottom-color:var(--teal)}
+.nav .btn{padding:9px 16px;font-size:14px;border-bottom-width:1.5px}
+.nav a.btn-primary{color:var(--on-navy)}
+@media (max-width:860px){ .nav a:not(.btn){display:none} }
+@media (max-width:420px){ .brand img{width:150px} .nav .btn{padding:8px 12px;font-size:13px} }
+
+/* Hero */
+.hero{padding-block:clamp(40px,7vw,88px) clamp(40px,6vw,72px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,5vw,64px);align-items:center}
+@media (max-width:980px){ .hero-grid{grid-template-columns:minmax(0,1fr)} }
+.hero-copy{display:flex;flex-direction:column;gap:var(--space-6);min-width:0}
+.hero h1{font-size:clamp(34px,4.6vw,54px);line-height:1.06;font-weight:700;letter-spacing:-.01em}
+.hero h1 .rule{display:block;width:min(100%,420px);height:3px;background:var(--navy);margin-top:var(--space-6)}
+.ctas{display:flex;flex-wrap:wrap;gap:var(--space-3)}
+.video-frame{border-top:3px solid var(--navy);border-radius:0 0 var(--radius-md) var(--radius-md);overflow:hidden;background:var(--surface);outline:1px solid var(--line);outline-offset:-1px}
+.video-frame video{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--surface)}
+.video-cap{display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap;padding:10px var(--space-4);border-top:1px solid var(--line);font-size:12px;line-height:16px;color:var(--ink-muted)}
+.video-cap b{font-family:var(--font-display);letter-spacing:.1em;color:var(--navy);font-size:11px}
+
+.figures{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-6);margin-top:clamp(40px,6vw,64px);padding-top:var(--space-6);border-top:1px solid var(--line)}
+@media (max-width:760px){ .figures{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.figure b{display:block;font-family:var(--font-display);font-size:clamp(22px,2.4vw,28px);line-height:1.15;font-weight:700;color:var(--navy);margin-bottom:var(--space-1);font-variant-numeric:tabular-nums}
+.figure span{display:block;font-size:13px;line-height:18px;color:var(--ink);max-width:22ch}
+
+/* Seções */
+.section{padding-block:clamp(56px,8vw,96px)}
+.section-tint{background:var(--surface-tint)}
+.section-head{display:flex;flex-direction:column;gap:var(--space-3);margin-bottom:clamp(32px,5vw,56px);max-width:720px}
+.section-head h2{font-size:clamp(28px,3.4vw,40px);line-height:1.12;font-weight:700}
+
+/* Problema / solução */
+.ps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,48px)}
+@media (max-width:860px){ .ps{grid-template-columns:minmax(0,1fr)} }
+.ps-item{display:flex;flex-direction:column;gap:var(--space-3);padding-top:var(--space-4);border-top:2px solid var(--navy)}
+.ps-item h3{font-size:20px;line-height:1.25;font-weight:700}
+.ps-item p{font-size:16px;line-height:1.6}
+.ps-item sup{color:var(--teal-ink);font-weight:600}
+.note{margin-top:var(--space-8);font-size:12px;line-height:16px;color:var(--ink-muted)}
+
+/* Módulos */
+.modules{display:flex;flex-direction:column;gap:clamp(56px,8vw,96px)}
+.module{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(28px,4vw,56px);align-items:center}
+.module.flip{grid-template-columns:minmax(0,7fr) minmax(0,4fr)}
+.module.flip .module-copy{order:2}
+@media (max-width:900px){ .module,.module.flip{grid-template-columns:minmax(0,1fr)} .module.flip .module-copy{order:0} }
+.module-copy{display:flex;flex-direction:column;gap:var(--space-4);min-width:0}
+.module-copy .tag{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--teal-ink)}
+.module-copy h3{font-size:clamp(24px,2.6vw,30px);line-height:1.15;font-weight:700}
+.module-copy .sub{font-size:17px;color:var(--ink-muted)}
+.checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--space-2)}
+.checks li{position:relative;padding-left:22px;font-size:15px;line-height:22px}
+.checks li::before{content:"";position:absolute;left:2px;top:8px;width:9px;height:9px;border-radius:1px;background:var(--teal)}
+.shot{margin:0;min-width:0}
+.shot img{width:100%;height:auto;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--surface)}
+.shot figcaption{margin-top:var(--space-2);font-size:12px;line-height:16px;color:var(--ink-muted)}
+
+.alert-callout{border:1.5px solid var(--navy);border-radius:var(--radius-md);padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-1)}
+.alert-callout .big{font-family:var(--font-display);font-size:28px;line-height:1.15;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
+.alert-callout .blk{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--alert)}
+.usebar{display:grid;grid-template-columns:1fr auto;align-items:center;gap:var(--space-3);margin-block:var(--space-2)}
+.usebar .track{height:8px;background:var(--surface-tint);border-radius:var(--radius-sm);position:relative;overflow:hidden}
+.usebar .fill{position:absolute;inset:0 auto 0 0;width:100%;background:var(--alert);border-radius:var(--radius-sm)}
+.usebar .track::after{content:"";position:absolute;top:0;bottom:0;left:92.3%;width:2px;background:var(--surface)}
+.usebar span{font-family:var(--font-mono);font-size:13px;color:var(--ink)}
+.alert-callout small{font-size:12px;line-height:16px;color:var(--ink-muted)}
+
+/* Perfis */
+.profiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-4)}
+@media (max-width:980px){ .profiles{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:560px){ .profiles{grid-template-columns:minmax(0,1fr)} }
+.profile{background:var(--surface);border-radius:var(--radius-md);padding:var(--space-6) var(--space-4) var(--space-4);border-top:3px solid var(--navy);display:flex;flex-direction:column;gap:var(--space-3)}
+.profile h3{font-size:19px;line-height:1.25}
+.profile p{font-size:15px;line-height:22px}
+.profile .who{font-size:12px;line-height:16px;color:var(--ink-muted);margin-top:auto;padding-top:var(--space-3);border-top:1px solid var(--line)}
+
+/* Segurança */
+.sec-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,64px);align-items:start}
+@media (max-width:900px){ .sec-grid{grid-template-columns:minmax(0,1fr)} }
+.kv{display:grid;grid-template-columns:minmax(0,max-content) minmax(0,1fr);margin:0}
+.kv dt,.kv dd{padding-block:14px;border-bottom:1px solid var(--line)}
+.kv dt{font-size:14px;line-height:20px;color:var(--ink-muted);padding-right:var(--space-6)}
+.kv dd{margin:0;font-size:15px;line-height:22px;font-weight:600;color:var(--ink)}
+.kv dt:first-of-type,.kv dd:first-of-type{border-top:2px solid var(--navy)}
+@media (max-width:560px){ .kv{grid-template-columns:minmax(0,1fr)} .kv dt{border-bottom:0;padding-bottom:0} .kv dd{padding-top:4px} .kv dd:first-of-type{border-top:0} }
+
+/* Linha do tempo */
+.timeline{list-style:none;margin:0;padding:var(--space-4) 0 0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:var(--space-4);border-top:2px solid var(--teal-ink)}
+@media (max-width:1000px){ .timeline{grid-template-columns:repeat(4,minmax(0,1fr))} }
+@media (max-width:560px){ .timeline{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.timeline li{display:flex;flex-direction:column;gap:var(--space-2);height:100%}
+.timeline li .status{margin-top:auto}
+.timeline b{font-family:var(--font-mono);font-weight:600;font-size:13px;line-height:18px;color:var(--teal-ink)}
+.timeline span{font-size:15px;line-height:21px;color:var(--ink)}
+.status{font-style:normal;align-self:flex-start;font-family:var(--font-display);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:var(--radius-sm)}
+.status.on{background:var(--navy);color:var(--on-navy);border:1px solid var(--navy)}
+.status.next{background:var(--surface);color:var(--navy);border:1px solid var(--navy)}
+.section-tint .status.next{background:var(--surface)}
+
+/* Contato */
+.contact{background:var(--navy);color:var(--on-navy)}
+.contact .wrap{padding-block:clamp(56px,8vw,96px);display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,5vw,64px);align-items:center}
+@media (max-width:900px){ .contact .wrap{grid-template-columns:minmax(0,1fr)} }
+.contact .eyebrow{color:var(--chart-teal-light)}
+.contact h2{color:var(--on-navy);font-size:clamp(28px,3.4vw,40px);line-height:1.12;margin-block:var(--space-3) var(--space-4)}
+.contact p{color:#d6dbef;font-size:17px;line-height:1.55;max-width:52ch}
+.contact-card{background:var(--surface);color:var(--ink);border-radius:var(--radius-md);padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-4)}
+.contact-card .label{font-size:12px;line-height:16px;color:var(--ink-muted);margin-bottom:var(--space-1)}
+.contact-row{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);flex-wrap:wrap;padding-bottom:var(--space-4);border-bottom:1px solid var(--line)}
+.contact-row:last-child{border-bottom:0;padding-bottom:0}
+.contact-row .val{font-family:var(--font-display);font-weight:700;font-size:19px;color:var(--navy);user-select:all;word-break:break-all}
+.contact-row a.val{text-decoration:none}
+.copy{font-family:var(--font-display);font-weight:600;font-size:13px;color:var(--navy);background:var(--surface-tint);border:1px solid var(--line);border-radius:var(--radius-md);padding:7px 12px;cursor:pointer}
+.copy:hover{border-color:var(--navy)}
+
+/* Rodapé */
+.footer .wrap{padding-block:var(--space-8);display:flex;justify-content:space-between;align-items:center;gap:var(--space-6);flex-wrap:wrap}
+.footer img{width:150px;height:auto}
+.footer p{font-size:13px;line-height:18px;color:var(--ink-muted)}
+.footer nav{display:flex;gap:var(--space-6);flex-wrap:wrap}
+.footer nav a{font-size:13px;color:var(--navy);text-decoration:none;font-weight:600}
+.footer nav a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#topo" aria-label="Gas Hub Tech, início"><img src="img/gashubtech-logo.png" alt="Gas Hub Tech" width="512" height="284"></a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#plataforma">Plataforma</a>
+      <a href="#modulos">Módulos</a>
+      <a href="#perfis">Para quem</a>
+      <a href="#seguranca">Segurança</a>
+      <a href="#roadmap">Roadmap</a>
+      <a class="btn btn-primary" href="#contato">Agendar demonstração</a>
+    </nav>
+  </div>
+</header>
+
+<main id="topo">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">GTRM · Gas Trading and Risk Management</p>
+          <h1>Gestão de risco e operação de gás natural, em um só lugar<span class="rule" aria-hidden="true"></span></h1>
+          <p class="lead">Plataforma da Gas Hub Tech para comercializadoras, distribuidoras e consumidores do mercado livre de gás. Contratos, MtM, P&amp;L, crédito e desbalanço na mesma tela, atualizados a cada 5 minutos.</p>
+          <div class="ctas">
+            <a class="btn btn-primary" href="#contato">Agendar demonstração</a>
+            <a class="btn btn-ghost" href="#modulos">Ver os módulos</a>
+          </div>
+        </div>
+        <div>
+          <div class="video-frame">
+            <video id="hero-video" src="ght-video.mp4" poster="img/poster.jpg" autoplay muted loop playsinline controls preload="metadata" aria-label="Vídeo de apresentação do GTRM: limites de crédito, contratos e MtM, exposição, desbalanço por zona e painel da mesa"></video>
+            <div class="video-cap"><span><b>GTRM</b> &nbsp;Apresentação da plataforma · 25 s</span><span>Dados de demonstração</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="figures" aria-label="A plataforma em números">
+        <div class="figure"><b>4 módulos</b><span>em operação: contratos, MtM e P&amp;L, crédito e desbalanço</span></div>
+        <div class="figure"><b>4 perfis</b><span>comercializador, distribuidor, consumidor e administrador</span></div>
+        <div class="figure"><b>5 min</b><span>intervalo de atualização dos painéis</span></div>
+        <div class="figure"><b>AES-256</b><span>criptografia do banco de dados</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tint" id="plataforma">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Plataforma</p>
+        <h2>O sistema de trading e risco para o novo mercado de gás</h2>
+      </div>
+      <div class="ps">
+        <div class="ps-item">
+          <p class="eyebrow">Problema</p>
+          <h3>Operação em planilhas</h3>
+          <p>Comercializadoras controlam contratos, posição, MTM e nominação no TBG em planilhas. Um erro de cálculo vira prejuízo.</p>
+        </div>
+        <div class="ps-item">
+          <p class="eyebrow">Contexto</p>
+          <h3>Mercado livre em expansão</h3>
+          <p>A Nova Lei do Gás (Lei 14.134/2021) abriu espaço para novos agentes. Mais contrapartes, mais contratos e mais exposição para acompanhar todos os dias.</p>
+        </div>
+        <div class="ps-item">
+          <p class="eyebrow">Solução</p>
+          <h3>ETRM em SaaS</h3>
+          <p>Plataforma multi-tenant com contratos, curva forward, MtM e P&amp;L, limites de crédito e desbalanço por zona. Cada empresa vê apenas os próprios dados.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="modulos">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Módulos</p>
+        <h2>Da assinatura do contrato à penalidade estimada</h2>
+        <p class="lead">As telas abaixo são da plataforma em funcionamento, com empresas de demonstração.</p>
+      </div>
+
+      <div class="modules">
+        <article class="module">
+          <div class="module-copy">
+            <span class="tag">Entregas 1 e 2</span>
+            <h3>Contratos, MtM e P&amp;L</h3>
+            <p class="sub">Com curva forward sob seu controle.</p>
+            <ul class="checks">
+              <li>Contratos físicos de compra e venda indexados a PTAX, dólar ou preço fixo</li>
+              <li>MtM da carteira e P&amp;L do dia por contrato ou por contraparte</li>
+              <li>Parcela cambial separada do MtM real</li>
+              <li>Volume restante em MMBtu por contrato</li>
+            </ul>
+          </div>
+          <figure class="shot">
+            <img src="img/contratos.jpg" alt="Tela de MtM e P&amp;L: MtM da carteira de R$ 90,3 milhões, P&amp;L do dia de R$ 1,3 milhão e tabela por contrato" width="1400" height="548" loading="lazy">
+            <figcaption>MtM da carteira em 23/10/2026, PTAX R$ 5,4225, curva forward de out/26 a set/28.</figcaption>
+          </figure>
+        </article>
+
+        <article class="module flip">
+          <div class="module-copy">
+            <span class="tag">Entrega 3</span>
+            <h3>Exposição e limites de crédito</h3>
+            <p class="sub">Com alertas e bloqueio.</p>
+            <div class="alert-callout" role="img" aria-label="Exemplo: Cerâmica Horizonte com 108,3% do limite de crédito e novas operações bloqueadas">
+              <span class="big">108,3% do limite de crédito.</span>
+              <div class="usebar"><div class="track"><div class="fill"></div></div><span>108,3%</span></div>
+              <span class="blk">Novas operações: bloqueadas.</span>
+              <small>Cerâmica Horizonte (demo): exposição bruta R$ 48,7 mi contra limite de R$ 45 mi.</small>
+            </div>
+            <ul class="checks">
+              <li>Exposição bruta e líquida por contraparte e por classe de risco</li>
+              <li>Alerta quando o uso se aproxima do limite</li>
+              <li>Bloqueio de novas operações acima de 100%</li>
+            </ul>
+          </div>
+          <figure class="shot">
+            <img src="img/exposicao.jpg" alt="Tela de exposição por contraparte com uso do limite, situação e bloqueio" width="1400" height="399" loading="lazy">
+            <figcaption>Posição em 23/10/2026: volume restante a partir do dia seguinte.</figcaption>
+          </figure>
+        </article>
+
+        <article class="module">
+          <div class="module-copy">
+            <span class="tag">Entrega 5</span>
+            <h3>Desbalanço por zona</h3>
+            <p class="sub">E penalidade estimada.</p>
+            <ul class="checks">
+              <li>Medido contra nominado, dia a dia, em m³</li>
+              <li>Faixas verde, amarela e vermelha por zona de entrega</li>
+              <li>Desbalanço e penalidade acumulados no mês</li>
+            </ul>
+          </div>
+          <figure class="shot">
+            <img src="img/desbalanco.jpg" alt="Gráfico de desbalanço diário da Zona Baixada Santista com penalidade acumulada de R$ 684,90" width="1400" height="475" loading="lazy">
+            <figcaption>Zona Baixada Santista: 23 dias com movimento, desbalanço acumulado de +18.244 m³.</figcaption>
+          </figure>
+        </article>
+
+        <article class="module flip">
+          <div class="module-copy">
+            <span class="tag">Painel</span>
+            <h3>Painel da mesa</h3>
+            <p class="sub">O dia da operação em uma tela.</p>
+            <ul class="checks">
+              <li>Receita, margem bruta, volume negociado e MTM do mês</li>
+              <li>Câmbio PTAX e efeito no caixa dos próximos 30 dias</li>
+              <li>Posição física dos próximos 12 meses</li>
+              <li>Lista do que requer atenção, com as contrapartes perto do limite</li>
+            </ul>
+          </div>
+          <figure class="shot">
+            <img src="img/painel.jpg" alt="Painel da mesa com indicadores do mês, resultado do dia, câmbio, posição física e exposição" width="948" height="828" loading="lazy">
+            <figcaption>Comercializadora Paulista de Gás (demo).</figcaption>
+          </figure>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tint" id="perfis">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Para quem</p>
+        <h2>Um painel para cada lado do contrato</h2>
+      </div>
+      <div class="profiles">
+        <article class="profile">
+          <h3>Comercializador</h3>
+          <p>Carteira completa, curva forward, MtM, P&amp;L e limites de crédito de todas as contrapartes.</p>
+          <p class="who">Mesas de trading e áreas de risco</p>
+        </article>
+        <article class="profile">
+          <h3>Distribuidor</h3>
+          <p>Contratos de suprimento, volumes, nominações e desbalanço nas zonas de entrega.</p>
+          <p class="who">Distribuidoras de gás canalizado</p>
+        </article>
+        <article class="profile">
+          <h3>Consumidor livre</h3>
+          <p>Contratos, volumes medidos contra nominados e penalidades estimadas antes da fatura.</p>
+          <p class="who">Indústrias no mercado livre</p>
+        </article>
+        <article class="profile">
+          <h3>Administrador</h3>
+          <p>Usuários, empresas e convites. Criação individual ou em lote por CSV.</p>
+          <p class="who">Gestão da plataforma</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="seguranca">
+    <div class="wrap sec-grid">
+      <div class="section-head" style="margin-bottom:0">
+        <p class="eyebrow">Segurança</p>
+        <h2>Dados de contrato tratados como dados financeiros</h2>
+        <p class="lead">Preço, volume e limite de crédito são informação sensível. A plataforma separa os dados por empresa e protege o acesso em cada etapa.</p>
+      </div>
+      <dl class="kv">
+        <dt>Isolamento</dt><dd>Cada empresa acessa apenas os próprios contratos e contrapartes</dd>
+        <dt>Banco de dados</dt><dd>Criptografado com AES-256</dd>
+        <dt>Acesso</dt><dd>Verificação em duas etapas obrigatória para administradores</dd>
+        <dt>Convites</dt><dd>Por e-mail, com token de uso único</dd>
+        <dt>Conexão</dt><dd>HTTPS obrigatório em produção</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section-tint" id="roadmap">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Roadmap</p>
+        <h2>Sete entregas para cobrir a operação de ponta a ponta</h2>
+        <p class="lead">Quatro estão em operação. As próximas levam a plataforma à nominação, ao regulador e ao faturamento.</p>
+      </div>
+      <ol class="timeline">
+        <li><b>Entrega 1</b><span>Contratos físicos e PTAX</span><em class="status on">Disponível</em></li>
+        <li><b>Entrega 2</b><span>MtM e P&amp;L</span><em class="status on">Disponível</em></li>
+        <li><b>Entrega 3</b><span>Exposição e limites de crédito</span><em class="status on">Disponível</em></li>
+        <li><b>Entrega 4</b><span>Nominação D-1 por CSV ou webservice</span><em class="status next">Próxima etapa</em></li>
+        <li><b>Entrega 5</b><span>Desbalanço por zona e penalidades</span><em class="status on">Disponível</em></li>
+        <li><b>Entrega 6</b><span>Mapa ANP / I-SIMP</span><em class="status next">Próxima etapa</em></li>
+        <li><b>Entrega 7</b><span>Faturamento e integração com ERP</span><em class="status next">Próxima etapa</em></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="contact" id="contato">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Contato</p>
+        <h2>Veja o GTRM com os contratos da sua empresa</h2>
+        <p>Em uma demonstração de 30 minutos, mostramos a carteira, o MtM e os limites de crédito com dados próximos aos da sua operação.</p>
+      </div>
+      <div class="contact-card">
+        <div class="contact-row">
+          <div><p class="label">E-mail</p><span class="val" id="email">dm@gashub.tech</span></div>
+          <button class="copy" type="button" id="copy-email" data-target="email">Copiar</button>
+        </div>
+        <div class="contact-row">
+          <div><p class="label">Site</p><a class="val" href="https://gashub.tech" target="_blank" rel="noopener">gashub.tech</a></div>
+        </div>
+        <div class="contact-row">
+          <div><p class="label">Sede</p><span class="val" style="user-select:text">São Paulo, SP</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <img src="img/gashubtech-logo.png" alt="Gas Hub Tech" width="512" height="284">
+    <nav aria-label="Rodapé">
+      <a href="#plataforma">Plataforma</a>
+      <a href="#modulos">Módulos</a>
+      <a href="#seguranca">Segurança</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <p>© 2026 Gas Hub Tech · gashub.tech</p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var el = document.getElementById(btn.dataset.target);
+    var text = el.textContent.trim();
+    function done(){ btn.textContent = 'Copiado'; setTimeout(function(){ btn.textContent = 'Copiar'; }, 1800); }
+    function fallback(){ var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selecionado'; }
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch(e){ fallback(); }
+  });
+});
+(function(){
+  var v = document.getElementById('hero-video');
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); }
+})();
+</script>
+</body>
+</html>
